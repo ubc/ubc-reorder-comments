@@ -12,7 +12,7 @@
  * Plugin Name: UBC Reorder Comments
  * Plugin URI:  https://ctlt.ubc.ca
  * Description: Adds the ability to reorder comments based on several different, customizable, pieces of data.
- * Version:     0.1.0
+ * Version:     0.1.1
  * Author:      Richard Tape, Kelvin Xu, UBC CTLT
  * Author URI:  https://ctlt.ubc.ca/
  * Text Domain: ubc-reorder-comments
@@ -52,7 +52,6 @@ function comments_template_query_args__comments_like_filtering( $comment_args ) 
 	switch ( $filter_type ) {
 
 		case 'like':
-			// $comment_meta_key = 'cld_like_count';
 			$comment_meta_key = get_comment_like_rubric_meta_key();
 			break;
 
@@ -205,7 +204,7 @@ function get_comment_like_rubric_meta_key() {
 		return false;
 	}
 
-	$rubric_id      = intval( $rubric->ID );
+	$rubric_id = intval( $rubric->ID );
 
 	$comment_like_rubric_meta_key = 'ubc_wp_vote_' . $rubric_id . '_total';
 
@@ -243,15 +242,15 @@ function before_comment_list__output_comment_filters() {
 
 	?>
 	<form action="<?php echo esc_url( get_the_permalink() ); ?>" method="POST" id="reorder-comments-filters">
-	<label for="comment_filter_type">Filter Responses By:</label>
+	<label for="comment_filter_type"><?php echo esc_html__( 'Filter Responses By:', 'ubc-reorder-comments' ); ?></label>
 
 	<select name="comment_filter_type" id="comment_filter_type">
-		<option value="" <?php selected( $filter_type, '' ); ?>>-- Please Choose an Option --</option>
-		<option value="like" <?php selected( $filter_type, 'like' ); ?>>Number of Thumbs Up</option>
+		<option value="" <?php selected( $filter_type, '' ); ?>>-- <?php echo esc_html__( 'Please Choose an Option', 'ubc-reorder-comments' ); ?> --</option>
+		<option value="like" <?php selected( $filter_type, 'like' ); ?>><?php echo esc_html__( 'Number of Thumbs Up', 'ubc-reorder-comments' ); ?></option>
 	</select>
 
 	<select name="comment_filter_comparison" id="comment_filter_comparison">
-		<option value="" <?php selected( $filter_comparison, '' ); ?>>-- Please Choose an Option --</option>
+		<option value="" <?php selected( $filter_comparison, '' ); ?>>-- <?php echo esc_html__( 'Please Choose an Option', 'ubc-reorder-comments' ); ?> --</option>
 		<option value="gt" <?php selected( $filter_comparison, 'gt' ); ?>>></option>
 		<option value="lt" <?php selected( $filter_comparison, 'lt' ); ?>><</option>
 		<option value="e" <?php selected( $filter_comparison, 'e' ); ?>>=</option>
@@ -260,46 +259,17 @@ function before_comment_list__output_comment_filters() {
 	<input type="number" size="2" name="comment_filter_value" id="comment_filter_value" placeholder="1" value="<?php echo absint( $filter_value ); ?>" />
 
 	<select name="comment_filter_order" id="comment_filter_order">
-		<option value=""<?php selected( $filter_order, '' ); ?>>-- Please Choose an Option --</option>
-		<option value="asc"<?php selected( $filter_order, 'asc' ); ?>>In Ascending Order</option>
-		<option value="desc" <?php selected( $filter_order, 'desc' ); ?>>In Descending Order</option>
+		<option value=""<?php selected( $filter_order, '' ); ?>>-- <?php echo esc_html__( 'Please Choose an Option', 'ubc-reorder-comments' ); ?> --</option>
+		<option value="asc"<?php selected( $filter_order, 'asc' ); ?>><?php echo esc_html__( 'In Ascending Order', 'ubc-reorder-comments' ); ?></option>
+		<option value="desc" <?php selected( $filter_order, 'desc' ); ?>><?php echo esc_html__( 'In Descending Order', 'ubc-reorder-comments' ); ?></option>
 	</select>
 
 	<?php wp_nonce_field( 'ubc_filter_comments', 'ubc_filter_comments_nonce' ); ?>
-	<input type="submit" id="submit-comment-filter" value="Filter" />
+	<input type="submit" id="submit-comment-filter" value="<?php echo esc_attr__( 'Filter', 'ubc-reorder-comments' ); ?>" />
 
 	</form>
 	<?php
 }//end before_comment_list__output_comment_filters()
-
-
-// add_action( 'init', 'init__check_for_comment_filters' );
-
-/**
- * If our comments filters have been submitted, parse the filters.
- *
- * @return void
- */
-function init__check_for_comment_filters() {
-
-	if ( ! isset( $_POST['ubc_filter_comments_nonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['ubc_filter_comments_nonce'] ), 'ubc_filter_comments' ) ) {
-		return;
-	}
-
-	if ( ! isset( $_POST['comment_filter_type'] ) || '' === wp_unslash( sanitize_key( $_POST['comment_filter_type'] ) ) ) {
-		return;
-	}
-
-	$filter_type       = wp_unslash( sanitize_key( $_POST['comment_filter_type'] ) ); //phpcs:ignore
-	$filter_comparison = wp_unslash( sanitize_key( $_POST['comment_filter_comparison'] ) ); //phpcs:ignore
-	$filter_value      = wp_unslash( absint( $_POST['comment_filter_value'] ) ); //phpcs:ignore
-	$filter_order      = wp_unslash( sanitize_key( $_POST['comment_filter_order'] ) ); //phpcs:ignore
-
-	file_put_contents( WP_CONTENT_DIR . '/debug.log', print_r( array( $filter_type, $filter_comparison, $filter_value, $filter_order ), true ), FILE_APPEND ); // phpcs:ignore
-
-
-}//end init__check_for_comment_filters()
-
 
 add_action( 'wp_enqueue_scripts', 'wp_enqueue_scripts__reorder_comments_styles' );
 
