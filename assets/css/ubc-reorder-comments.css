@@ -1,0 +1,99 @@
+#reorder-comments-filters {
+    padding: 20px 30px;
+    background: #f4f4f4;
+}
+
+label[for="comment_filter_type"] {
+
+}
+
+#comment_filter_type {
+    height: 40px;
+    width: 180px;
+}
+
+#comment_filter_comparison {
+    width: 45px;
+    height: 40px;
+}
+
+#comment_filter_value {
+    width: 40px;
+    border-radius: 5px;
+    height: 30px;
+}
+
+#comment_filter_order {
+    height: 40px;
+    width: 160px;
+}
+
+#submit-comment-filter {
+    background: #002145;
+    color: white;
+    border-radius: 5px;
+    padding: 9px 17px;
+    margin: 0;
+}
+
+@media ( min-width: 387px ) {
+    #submit-comment-filter {
+        margin: -11px 0 0;
+    }
+}
+
+@media ( min-width: 551px ) {
+    #submit-comment-filter {
+        margin-top: 0;
+    }
+}
+
+@media ( min-width: 623px ) {
+    #submit-comment-filter {
+        margin: -11px 0 0;
+    }
+}
+
+@media ( min-width: 768px ) {
+    #submit-comment-filter {
+        margin-top: 0;
+    }
+}
+
+@media ( min-width: 822px ) {
+    #submit-comment-filter {
+        margin: -11px 0 0;
+    }
+}
+
+@media ( min-width: 1200px ) {
+
+    label[for="comment_filter_type"] {
+        display: inline-block;
+        position: relative;
+        top: -3px;
+        margin-right: 10px;
+    }
+
+    #comment_filter_type {
+
+        margin-right: 10px;
+    }
+
+    #comment_filter_comparison {
+        margin-right: 10px;
+    }
+
+    #comment_filter_value {
+        margin-right: 10px;
+    }
+
+    #comment_filter_order {
+
+        margin-right: 10px;
+    }
+
+    #submit-comment-filter {
+    }
+
+}
